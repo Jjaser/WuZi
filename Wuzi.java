@@ -10,7 +10,7 @@ import java.awt.event.MouseMotionListener;
 
 public class Wuzi extends JFrame implements ActionListener, MouseListener, MouseMotionListener
 {
-    int color = 0;
+    int color = 1;
 
     boolean isStart = false;
 
