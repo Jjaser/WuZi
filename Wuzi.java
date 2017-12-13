@@ -368,6 +368,7 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 
 
 	public void paint(Graphics g) {
+		super.paint(g);
 		g.setColor(Color.lightGray);
 		g.fill3DRect(40,40, 720, 720, true);
 		g.setColor(Color.black);
