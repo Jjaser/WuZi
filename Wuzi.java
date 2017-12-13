@@ -1,392 +1,428 @@
+import com.sun.org.apache.regexp.internal.REUtil;
+
 import java.awt.*;
 import javax.swing.*;
 
 import java.awt.event.*;
-import java.awt.event.MouseEvent;  
-import java.awt.event.MouseListener;  
-import java.awt.event.MouseMotionListener; 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class Wuzi extends JFrame implements ActionListener, MouseListener, MouseMotionListener
- {	
-	int color=0;
-	
-	boolean isStart=false;
-	
-	int a[][] = new int[16][16];
-	
-	JButton b1=new JButton("å¼€å§‹æ¸¸æˆ");
-	JButton b2=new JButton("ä¸Šä¸€æ­¥");
-	JButton b3=new JButton("ä¸‹ä¸€æ­¥");
-	JButton b4=new JButton("é‡ç½®æ¸¸æˆ");
-	
-	public Wuzi()
-	{
-		
-		super("äº”å­æ£‹");
-		this.setBounds(50, 50, 800, 850);
-		this.setLayout(null);
-		
-		addMouseListener(this);
-		
-		JPanel p=new JPanel();
-		p.setBounds(0,0,800,850);
-		p.setLayout(null);
-		this.add(p);
-		
-		b1.setBounds(35, 740, 120, 50);
-		b2.setBounds(230, 740, 120, 50);
-		b3.setBounds(427, 740, 120, 50);
-		b4.setBounds(625, 740, 120, 50);
-		
-		p.add(b1);
-		p.add(b2);
-		p.add(b3);
-		p.add(b4);
-		
-		b1.addActionListener(this);
-		b2.addActionListener(this);
-		b3.addActionListener(this);
-		b4.addActionListener(this);
-		
-		b2.setEnabled(false);
-		b3.setEnabled(false);
-		b4.setEnabled(false);
-		
-		this.setVisible(true);
-		
-	}
-	public void actionPerformed(ActionEvent e) // è¯†åˆ«æŒ‰é’®
-	{
-		if (e.getSource() == b1) 
-		{
-			gameStart();
-		} 
-		if(e.getSource()==b4)
-		{
-			reset();
-		}
-	}
-	public void gameStart() 			// b1å®ç°
-	{
-		isStart = true;
-		enableGame(true);
-		b1.setEnabled(false);
-	}
-	public void enableGame(boolean e)  // è®¾ç½®ç»„ä»¶çŠ¶æ€
-	{
-		b2.setEnabled(e);
-		b3.setEnabled(e);
-		b4.setEnabled(e);
+{
+    int color = 0;
 
-	}
-	public void reset() // b4å®ç°
-	{
-		isStart=false;
-		b1.setEnabled(true);
-		enableGame(false);
-		repaint();
-	}
-	public void setDown(int x, int y) 	// ä¸‹æ£‹
-	{
-		if (!isStart)
-		{
-			return;
-		}
+    boolean isStart = false;
 
-		if (a[x / 50][y / 50] != 0) 
-		{
-			return;
-		}
-		Graphics g = getGraphics();
+    int a[][] = new int[16][16];
 
-		if (color == 1)
-		{
-			g.setColor(Color.black);
-			color = 0;
-		} 
-		else 
-		{
-			g.setColor(Color.white);
-			color = 1;
-		}
+    JButton b1 = new JButton("¿ªÊ¼ÓÎÏ·");
+    JButton b2 = new JButton("ÉÏÒ»²½");
+    JButton b3 = new JButton("ÏÂÒ»²½");
+    JButton b4 = new JButton("ÖØÖÃÓÎÏ·");
 
-		g.fillOval(x - 25, y - 25, 50, 50);
+    public Wuzi()
+    {
 
-		a[x / 50][y / 50] = color + 1;
+        super("Îå×ÓÆå");
+        this.setBounds(50, 50, 800, 850);
+        this.setLayout(null);
 
-		if (Win1(x / 50, y / 50))               											 // èµ¢äº†å¼¹çª—
-		{
-			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
-			isStart = false;
-		}
+        addMouseListener(this);
 
-		if (Win2(x / 50, y / 50)) 
-		{
-			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
-			isStart = false;
-		}
+        JPanel p = new JPanel();
+        p.setBounds(0, 0, 800, 850);
+        p.setLayout(null);
+        this.add(p);
 
-		if (Win3(x / 50, y / 50)) 
-		{
-			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
-			isStart = false;
-		}
+        b1.setBounds(35, 740, 120, 50);
+        b2.setBounds(230, 740, 120, 50);
+        b3.setBounds(427, 740, 120, 50);
+        b4.setBounds(625, 740, 120, 50);
 
-		if (Win4(x / 50, y / 50)) 
-		{
-			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
-			isStart = false;
-		}
-	}
+        p.add(b1);
+        p.add(b2);
+        p.add(b3);
+        p.add(b4);
 
-	public String startC(int x) 													//è·å–å…ˆæ‰‹æ£‹å­
-	{
-		if (x == 0) 
-		{
-			return "é»‘å­";
-		} 
-		else 
-		{
-			return "ç™½å­";
-		}
-	}
-	public void mousePressed(MouseEvent e) {
-	}
-	public void mouseClicked(MouseEvent e) 												// è·å–åæ ‡
-	{
-		int x1, y1;
-		x1 = e.getX();
-		y1 = e.getY();
-		if (e.getX() < 50 || e.getX() > 750 || e.getY() < 50 || e.getY() > 750) 
-		{
-			return;
-		}
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        b3.addActionListener(this);
+        b4.addActionListener(this);
 
-		if (x1 % 50 > 25) 
-		{
-			x1 += 50;
-		}
+        b2.setEnabled(false);
+        b3.setEnabled(false);
+        b4.setEnabled(false);
 
-		if (y1 % 50 > 25) 
-		{
-			y1 += 50;
-		}
+        this.setVisible(true);
 
-		x1 = x1 / 50 * 50;
-		y1 = y1 / 50 * 50;
-		setDown(x1, y1);
+    }
 
-	}
-	public void mouseEntered(MouseEvent e) {
-	}
+    public void actionPerformed(ActionEvent e) // Ê¶±ğ°´Å¥
+    {
+        if (e.getSource() == b1)
+        {
+            gameStart();
+        }
+        if (e.getSource() == b4)
+        {
+            reset();
+        }
+    }
 
-	public void mouseExited(MouseEvent e) {
-	}
+    public void gameStart()            // b1ÊµÏÖ
+    {
+        isStart = true;
+        enableGame(true);
+        b1.setEnabled(false);
+    }
 
-	public void mouseReleased(MouseEvent e) {
-	}
+    public void enableGame(boolean e)  // ÉèÖÃ×é¼ş×´Ì¬
+    {
+        b2.setEnabled(e);
+        b3.setEnabled(e);
+        b4.setEnabled(e);
 
-	public void mouseDragged(MouseEvent e) {
-	}
+    }
 
-	public void mouseMoved(MouseEvent e) {
-	}
+    public void reset() // b4ÊµÏÖ
+    {
+        isStart = false;
+        b1.setEnabled(true);
+        enableGame(false);
+        repaint();
+    }
 
-	public boolean Win1(int x, int y) 									//æ¨ªç€
-	{
-		int x1, y1, t = 1;
-		x1 = x;
-		y1 = y;
+    public void setDown(int x, int y)    // ÏÂÆå
+    {
+        if (!isStart)
+        {
+            return;
+        }
 
-		for (int i = 1; i < 5; i++) 
-		{
-			if (x1 > 15) 
-			{
-				break;
-			}
-			if (a[x1 + i][y1] == a[x][y]) 
-			{
-				t += 1;
-			} 
-			else 
-			{
-				break;
-			}
+        if (a[x / 50][y / 50] != 0)
+        {
+            return;
+        }
+        Graphics g = getGraphics();
 
-		}
+        if (color == 1)
+        {
+            g.setColor(Color.black);
+            color = 0;
+        } else
+        {
+            g.setColor(Color.white);
+            color = 1;
+        }
 
-		for (int i = 1; i < 5; i++) 
-		{
-			if (x1 < 1) 
-			{
-				break;
-			}
+        g.fillOval(x - 25, y - 25, 50, 50);
 
-			if (a[x1 - i][y1] == a[x][y])
-			{
-				t += 1;
-			} 
-			else 
-			{
-				break;
-			}
-		}
-
-		if (t > 4) 
-		{
-			return true;
-		} 
-		else 
-		{
-			return false;
-		}
-	}
-	public boolean Win2(int x, int y) 						// ç«–ç€
-	{
-		int x1, y1, t = 1;
-		x1 = x;
-		y1 = y;
-
-		for (int i = 1; i < 5; i++) 
-		{
-			if (x1 > 15) 
-			{
-				break;
-			}
-			if (a[x1][y1 + i] == a[x][y]) 
-			{
-				t += 1;
-			} 
-			else 
-			{
-				break;
-			}
-
-		}
-
-		for (int i = 1; i < 5; i++) 
-		{
-			if (x1 < 1) 
-			{
-				break;
-			}
-
-			if (a[x1][y1 - i] == a[x][y]) 
-			{
-				t += 1;
-			} 
-			else 
-			{
-				break;
-			}
-		}
-
-		if (t > 4) 
-		{
-			return true;
-		} 
-		else 
-		{
-			return false;
-		}
-	}
-
-	public boolean Win3(int x, int y) 											//  å·¦æ–œ
-	{
-		int x1, y1, t = 1;
-		x1 = x;
-		y1 = y;
-
-		for (int i = 1; i < 5; i++) {
-			if (x1 > 15) {
-				break;
-			}
-			if (a[x1 + i][y1 - i] == a[x][y]) {
-				t += 1;
-			} else {
-				break;
-			}
-
-		}
-
-		for (int i = 1; i < 5; i++) {
-			if (x1 < 1) {
-				break;
-			}
-
-			if (a[x1 - i][y1 + i] == a[x][y]) {
-				t += 1;
-			} else {
-				break;
-			}
-		}
-
-		if (t > 4) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean Win4(int x, int y) 								// å³æ–œ
-	{
-		int x1, y1, t = 1;
-		x1 = x;
-		y1 = y;
-
-		for (int i = 1; i < 5; i++) {
-			if (x1 > 15) {
-				break;
-			}
-			if (a[x1 + i][y1 + i] == a[x][y]) {
-				t += 1;
-			} else {
-				break;
-			}
-
-		}
-
-		for (int i = 1; i < 5; i++) {
-			if (x1 < 1) {
-				break;
-			}
-
-			if (a[x1 - i][y1 - i] == a[x][y]) {
-				t += 1;
-			} else {
-				break;
-			}
-		}
-
-		if (t > 4) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+        a[x / 50][y / 50] = color + 1;
 
 
+        if (Win1(x / 50, y / 50))                                                         // Ó®ÁËµ¯´°
+        {
+            JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+            isStart = false;
+        }
+
+        if (Win2(x / 50, y / 50))
+        {
+            JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+            isStart = false;
+        }
+
+        if (Win3(x / 50, y / 50))
+        {
+            JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+            isStart = false;
+        }
+
+        if (Win4(x / 50, y / 50))
+        {
+            JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+            isStart = false;
+        }
+    }
+
+    public String startC(int x)                                                    //»ñÈ¡ÏÈÊÖÆå×Ó
+    {
+        if (x == 0)
+        {
+            return "ºÚ×Ó";
+        } else
+        {
+            return "°××Ó";
+        }
+    }
+
+    public void mousePressed(MouseEvent e)
+    {
+    }
+
+    public void mouseClicked(MouseEvent e)                                                // »ñÈ¡×ø±ê
+    {
+        int x1, y1;
+        x1 = e.getX();
+        y1 = e.getY();
+        if (e.getX() < 50 || e.getX() > 750 || e.getY() < 50 || e.getY() > 750)
+        {
+            return;
+        }
+
+        if (x1 % 50 > 25)
+        {
+            x1 += 50;
+        }
+
+        if (y1 % 50 > 25)
+        {
+            y1 += 50;
+        }
+
+        x1 = x1 / 50 * 50;
+        y1 = y1 / 50 * 50;
+        setDown(x1, y1);
+
+    }
+
+    public void mouseEntered(MouseEvent e)
+    {
+    }
+
+    public void mouseExited(MouseEvent e)
+    {
+    }
+
+    public void mouseReleased(MouseEvent e)
+    {
+    }
+
+    public void mouseDragged(MouseEvent e)
+    {
+    }
+
+    public void mouseMoved(MouseEvent e)
+    {
+    }
+
+    public boolean Win1(int x, int y)                                    //ºá×Å
+    {
+        int x1, y1, t = 1;
+        x1 = x;
+        y1 = y;
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1 + i, y1))
+            {
+                break;
+            }
+            if (a[x1 + i][y1] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+
+        }
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1 - i, y1))
+            {
+                break;
+            }
+            if (a[x1 - i][y1] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+        }
+
+        if (t > 4)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public boolean Win2(int x, int y)                        // Êú×Å
+    {
+        int x1, y1, t = 1;
+        x1 = x;
+        y1 = y;
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1, y1 + i))
+            {
+                break;
+            }
+            if (a[x1][y1 + i] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+
+        }
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1, y1 - i))
+            {
+                break;
+            }
+
+            if (a[x1][y1 - i] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+        }
+
+        if (t > 4)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public boolean Win3(int x, int y)                                            //  ×óĞ±
+    {
+        int x1, y1, t = 1;
+        x1 = x;
+        y1 = y;
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1 + i, y1 - i))
+            {
+                break;
+            }
+            if (a[x1 + i][y1 - i] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+
+        }
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1 - i, y1 + i))
+            {
+                break;
+            }
+            if (a[x1 - i][y1 + i] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+        }
+
+        if (t > 4)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public boolean Win4(int x, int y)                                // ÓÒĞ±
+    {
+        int x1, y1, t = 1;
+        x1 = x;
+        y1 = y;
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1 + i, y1 + i))
+            {
+                break;
+            }
+            if (a[x1 + i][y1 + i] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+
+        }
+
+        for (int i = 1; i < 5; i++)
+        {
+            if (!OnBoard(x1 - i, y1 - i))
+            {
+                break;
+            }
+
+            if (a[x1 - i][y1 - i] == a[x][y])
+            {
+                t += 1;
+            } else
+            {
+                break;
+            }
+        }
+
+        if (t > 4)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public boolean OnBoard(int x, int y)
+    {
+        if ((x > 0) && (x < 16) && (y > 0) && (y < 16)) return true;
+        return false;
+    }
+
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        g.setColor(Color.lightGray);
+        g.fill3DRect(40, 40, 720, 720, true);
+        g.setColor(Color.black);
+        for (int i = 1; i < 16; i++)
+        {
+            g.drawLine(50, 50 * i, 750, 50 * i);
+            g.drawLine(50 * i, 50, 50 * i, 750);
+        }
+        g.fillOval(195, 195, 10, 10);
+        g.fillOval(595, 195, 10, 10);
+        g.fillOval(195, 595, 10, 10);
+        g.fillOval(595, 595, 10, 10);
+        g.fillOval(395, 395, 10, 10);
+    }
+
+    public static void main(String[] args)
+    {
+        new Wuzi();
 
 
-	public void paint(Graphics g) {
-		g.setColor(Color.lightGray);
-		g.fill3DRect(40,40, 720, 720, true);
-		g.setColor(Color.black);
-		for (int i = 1; i < 16; i++) {
-			g.drawLine(50, 50 * i, 750,50 * i);
-			g.drawLine(50 * i, 50, 50 * i, 750);
-		}
-		g.fillOval(195, 195, 10,10);
-		g.fillOval(595, 195, 10, 10);
-		g.fillOval(195, 595, 10, 10);
-		g.fillOval(595, 595, 10, 10);
-		g.fillOval(395, 395, 10, 10);
-	}
-	public static void main(String[] args)
-	{
-		new Wuzi();
-		
-		
-	}
-	
-	
+    }
+
+
 }
