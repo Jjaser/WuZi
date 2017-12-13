@@ -14,15 +14,15 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 	
 	int a[][] = new int[16][16];
 	
-	JButton b1=new JButton("¿ªÊ¼ÓÎÏ·");
-	JButton b2=new JButton("ÉÏÒ»²½");
-	JButton b3=new JButton("ÏÂÒ»²½");
-	JButton b4=new JButton("ÖØÖÃÓÎÏ·");
+	JButton b1=new JButton("å¼€å§‹æ¸¸æˆ");
+	JButton b2=new JButton("ä¸Šä¸€æ­¥");
+	JButton b3=new JButton("ä¸‹ä¸€æ­¥");
+	JButton b4=new JButton("é‡ç½®æ¸¸æˆ");
 	
 	public Wuzi()
 	{
 		
-		super("Îå×ÓÆå");
+		super("äº”å­æ£‹");
 		this.setBounds(50, 50, 800, 850);
 		this.setLayout(null);
 		
@@ -55,7 +55,7 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 		this.setVisible(true);
 		
 	}
-	public void actionPerformed(ActionEvent e) // Ê¶±ğ°´Å¥
+	public void actionPerformed(ActionEvent e) // è¯†åˆ«æŒ‰é’®
 	{
 		if (e.getSource() == b1) 
 		{
@@ -66,27 +66,27 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 			reset();
 		}
 	}
-	public void gameStart() 			// b1ÊµÏÖ
+	public void gameStart() 			// b1å®ç°
 	{
 		isStart = true;
 		enableGame(true);
 		b1.setEnabled(false);
 	}
-	public void enableGame(boolean e)  // ÉèÖÃ×é¼ş×´Ì¬
+	public void enableGame(boolean e)  // è®¾ç½®ç»„ä»¶çŠ¶æ€
 	{
 		b2.setEnabled(e);
 		b3.setEnabled(e);
 		b4.setEnabled(e);
 
 	}
-	public void reset() // b4ÊµÏÖ
+	public void reset() // b4å®ç°
 	{
 		isStart=false;
 		b1.setEnabled(true);
 		enableGame(false);
 		repaint();
 	}
-	public void setDown(int x, int y) 	// ÏÂÆå
+	public void setDown(int x, int y) 	// ä¸‹æ£‹
 	{
 		if (!isStart)
 		{
@@ -114,45 +114,45 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 
 		a[x / 50][y / 50] = color + 1;
 
-		if (Win1(x / 50, y / 50))               											 // Ó®ÁËµ¯´°
+		if (Win1(x / 50, y / 50))               											 // èµ¢äº†å¼¹çª—
 		{
-			JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
 			isStart = false;
 		}
 
 		if (Win2(x / 50, y / 50)) 
 		{
-			JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
 			isStart = false;
 		}
 
 		if (Win3(x / 50, y / 50)) 
 		{
-			JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
 			isStart = false;
 		}
 
 		if (Win4(x / 50, y / 50)) 
 		{
-			JOptionPane.showMessageDialog(null, startC(color) + "»ñÊ¤£¡");
+			JOptionPane.showMessageDialog(null, startC(color) + "è·èƒœï¼");
 			isStart = false;
 		}
 	}
 
-	public String startC(int x) 													//»ñÈ¡ÏÈÊÖÆå×Ó
+	public String startC(int x) 													//è·å–å…ˆæ‰‹æ£‹å­
 	{
 		if (x == 0) 
 		{
-			return "ºÚ×Ó";
+			return "é»‘å­";
 		} 
 		else 
 		{
-			return "°××Ó";
+			return "ç™½å­";
 		}
 	}
 	public void mousePressed(MouseEvent e) {
 	}
-	public void mouseClicked(MouseEvent e) 												// »ñÈ¡×ø±ê
+	public void mouseClicked(MouseEvent e) 												// è·å–åæ ‡
 	{
 		int x1, y1;
 		x1 = e.getX();
@@ -192,7 +192,7 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 	public void mouseMoved(MouseEvent e) {
 	}
 
-	public boolean Win1(int x, int y) 									//ºá×Å
+	public boolean Win1(int x, int y) 									//æ¨ªç€
 	{
 		int x1, y1, t = 1;
 		x1 = x;
@@ -241,7 +241,7 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 			return false;
 		}
 	}
-	public boolean Win2(int x, int y) 						// Êú×Å
+	public boolean Win2(int x, int y) 						// ç«–ç€
 	{
 		int x1, y1, t = 1;
 		x1 = x;
@@ -291,7 +291,7 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 		}
 	}
 
-	public boolean Win3(int x, int y) 											//  ×óĞ±
+	public boolean Win3(int x, int y) 											//  å·¦æ–œ
 	{
 		int x1, y1, t = 1;
 		x1 = x;
@@ -327,7 +327,7 @@ public class Wuzi extends JFrame implements ActionListener, MouseListener, Mouse
 			return false;
 		}
 	}
-	public boolean Win4(int x, int y) 								// ÓÒĞ±
+	public boolean Win4(int x, int y) 								// å³æ–œ
 	{
 		int x1, y1, t = 1;
 		x1 = x;
